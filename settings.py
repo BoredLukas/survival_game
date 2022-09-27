@@ -3,8 +3,8 @@ class Settings:
     class containing all settings
     remember: use CAPITAL letters for CONSTANTS (variables that don't change)
     """
-    def __init__(self,win_height=800,win_width=500,bg_color=(255,255,255),fps=30,speed=12):
-        self.NAME = "sloppy bird"
+    def __init__(self,win_height=680,win_width=1080,bg_color=(145,255,120),fps=30,speed=12,player_size=(100,100)):
+        self.NAME = "Survival"
 
         # WINDOWS SIZE
         self.WIN_HEIGHT = win_height
@@ -19,3 +19,4 @@ class Settings:
 
         # GAME CONSTANTS
         self.SPEED = speed
+        self.PLAYER_SIZE = player_size

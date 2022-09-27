@@ -1,4 +1,5 @@
 from settings import Settings
+from player import Player
 from game import Game
 import os
 import sys
@@ -15,6 +16,8 @@ if __name__ == "__main__":
     # define some settings
     settings_default = Settings()
     settings_slow = Settings(speed=1)
+
+    
 
     # create game object and play
     game = Game(settings_default)
