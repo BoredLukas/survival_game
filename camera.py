@@ -3,7 +3,7 @@ import pygame
 import os
 from settings import Settings
 
-class Camera(pygame.sprite.Sprite):
+class Camera():
     def __init__(self):
         super().__init__()
         #box setup
@@ -12,5 +12,8 @@ class Camera(pygame.sprite.Sprite):
         left = self.camera_borders['left']
         top = self.camera_borders['top']
         width = self.settings.WIN_WIDTH - self.camera_borders['left'] - self.camera_borders['right']
-        height = self.settings.WIN_WIDTH - self.camera_borders['top'] - self.camera_borders['bottom']
-        self.camera_rect = pygame.rect(left, top, width, height)
+        height = self.settings.WIN_HEIGHT - self.camera_borders['top'] - self.camera_borders['bottom']
+        self.CAMERA_RECT = pygame.Rect(left, top, width, height)
+
+    def offset():
+        pass

@@ -12,13 +12,13 @@ class Game:
     def __init__(self,settings):
         pygame.init()
         pygame.font.init()
-        self.camera = Camera()
         self.settings = settings
         self.time_delay = self.settings.TIME_DELAY
         size = (self.settings.WIN_WIDTH, self.settings.WIN_HEIGHT)
         self.screen = pygame.display.set_mode(size) # create screen which will display everything
         self.win = pygame.display.set_mode(size)
         pygame.display.set_caption(self.settings.NAME) # Game title
+        self.camera = Camera()
 
     def quit(self):
         pygame.quit()
@@ -75,7 +75,7 @@ class Game:
             self.screen.fill(self.settings.BG_COLOR)  # draw empty screen
             balls.draw(self.screen) # draw all group members
             self.screen.blit(player.image, player.rect) # draw single object
-            pygame.draw.rect(self.screen, 'yellow', self.camera.camera_rect)
+            pygame.draw.rect(self.screen, 'yellow', self.camera.CAMERA_RECT, 5)
 
             # UPDATE DISPLAY
             pygame.display.update()
