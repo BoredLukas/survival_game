@@ -17,8 +17,6 @@ if __name__ == "__main__":
     settings_default = Settings()
     settings_slow = Settings(speed=1)
 
-    
-
     # create game object and play
     game = Game(settings_default)
     game.play()
