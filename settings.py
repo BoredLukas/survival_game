@@ -3,7 +3,7 @@ class Settings:
     class containing all settings
     remember: use CAPITAL letters for CONSTANTS (variables that don't change)
     """
-    def __init__(self,win_height=680,win_width=1080,bg_color=(255,255,255),fps=30,speed=12,player_size=(100,100)):
+    def __init__(self,win_height=680,win_width=1080,bg_color=(255,255,255),fps=30,speed=12,player_size=(90,70)):
         self.NAME = "Survival"
 
         # WINDOWS SIZE

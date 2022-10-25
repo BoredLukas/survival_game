@@ -1,6 +1,7 @@
 import os
 import pygame
 import sys
+import math
 from player import Player
 from settings import Settings
 
@@ -99,7 +100,7 @@ class Game:
     def play(self):
         # CREATE GAME OBJECTS
         # PLAYER:
-        player = Player(os.path.join('data','battleship.png'),(self.settings.WIN_WIDTH / 2,self.settings.WIN_HEIGHT / 2),self.settings.PLAYER_SIZE)
+        player = Player(os.path.join('data','player.png'),(self.settings.WIN_WIDTH / 2,self.settings.WIN_HEIGHT / 2),self.settings.PLAYER_SIZE)
 
         # CAMERA GROUP
         camera_group = CameraGroup(self.settings.WIN_WIDTH,self.settings.WIN_HEIGHT)
@@ -134,6 +135,11 @@ class Game:
                 player.rect.left -= self.settings.SPEED
             if keys[pygame.K_RIGHT or pygame.K_d]:
                 player.rect.left += self.settings.SPEED 
+
+            # MOUSETRACKING
+            if event.type == pygame.MOUSEMOTION:
+                player.point_at(*pygame.mouse.get_pos())
+            player.mouseposition()
 #order keys dont function
 
             # COLLISION DETECTION

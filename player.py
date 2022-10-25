@@ -1,5 +1,6 @@
 import pygame
 import os
+import math
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, img_path, xy_center, player_size):
@@ -19,11 +20,20 @@ class Player(pygame.sprite.Sprite):
         - determines motion of player
         """
         pass
- 
- 
+
+    def point_at(self, x, y):
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        angle = math.atan2(y - mouse_y, x - mouse_x)
+        self.image = pygame.transform.rotate(self.image, angle)
+        self.rect = self.image.get_rect(center=self.rect.center)
+
     def collide(self,ball):
         """
         player collides with ball, given as argument
         this method updates velocities of BOTH player and ball
         """
         pass
+
+    def mouseposition(self):
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        print(mouse_x, mouse_y)
