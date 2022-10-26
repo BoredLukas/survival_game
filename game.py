@@ -1,8 +1,9 @@
 import os
 import pygame
 import sys
-import math
+import random
 from player import Player
+from obstacles import Tree
 from settings import Settings
 
 class CameraGroup(pygame.sprite.Group):
@@ -18,7 +19,7 @@ class CameraGroup(pygame.sprite.Group):
         self.half_h = self.height // 2
 
         # Setting up Camera Box
-        self.camera_borders = {'left':100, 'right':100, 'top':50, 'bottom':50}
+        self.camera_borders = {'left':100, 'right':100, 'top':50, 'bottom':100}
         left = self.camera_borders['left']
         top = self.camera_borders['top']
         width = self.width - self.camera_borders['left'] - self.camera_borders['right']
@@ -70,7 +71,7 @@ class CameraGroup(pygame.sprite.Group):
         self.internal_surf.blit(self.ground_surf,ground_offset)
 
 		# active elements
-        for sprite in sorted(self.sprites(),key = lambda sprite: sprite.rect.centery):
+        for sprite in self.sprites():
             offset_pos = sprite.rect.topleft - self.offset + self.internal_offset
             self.internal_surf.blit(sprite.image,offset_pos)
 
@@ -106,15 +107,9 @@ class Game:
         camera_group = CameraGroup(self.settings.WIN_WIDTH,self.settings.WIN_HEIGHT)
         camera_group.add(player)
         # OTHER OBJECTS:
-        """
-        if you have multiple objects of the same class (e.g. enemies), use a SPRITE GROUP:
-        """
-        '''
-        balls = pygame.sprite.Group()
-        balls.add(Ball(os.path.join("data","ball_blue.png"),[100,200]))
-        balls.add(Ball(os.path.join("data","ball_black.png"),[200,400]))
-        balls.add(Ball(os.path.join("data","ball_green.png"),[300,600]))
-        '''
+        for i in range(10):
+            camera_group.add(Tree(os.path.join('data','tree_I.png'), self.settings.TREE_SIZE,random.randint(0,10000), random.randint(0,10000)))
+
         # GAME PERMANENT LOOP
         while True:
             pygame.time.delay(self.settings.TIME_DELAY)
@@ -137,16 +132,16 @@ class Game:
                 player.rect.left += self.settings.SPEED 
 
             # MOUSETRACKING
-            if event.type == pygame.MOUSEMOTION:
-                player.point_at(*pygame.mouse.get_pos())
-            player.mouseposition()
-#order keys dont function
+            # if event.type == pygame.MOUSEMOTION:
+            #     player.point_at()
+            # player.mouseposition()
+            # order keys dont function
 
             # COLLISION DETECTION
             """
             see manual for all types of collisions: https://www.pygame.org/docs/ref/sprite.html#pygame.sprite.spritecollide
             """
-            #for ball in balls: # use loop to iterate through sprite group easily
+            # for ball in balls: # use loop to iterate through sprite group easily
             #    pass
  
             # UPDATE ALL GAME OBJECTS

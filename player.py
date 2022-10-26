@@ -21,9 +21,9 @@ class Player(pygame.sprite.Sprite):
         """
         pass
 
-    def point_at(self, x, y):
+    def point_at(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
-        angle = math.atan2(y - mouse_y, x - mouse_x)
+        angle = math.atan2(self.rect.centery - mouse_y, self.rect.centerx - mouse_x)
         self.image = pygame.transform.rotate(self.image, angle)
         self.rect = self.image.get_rect(center=self.rect.center)
 
