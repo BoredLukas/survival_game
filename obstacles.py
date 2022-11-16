@@ -13,11 +13,13 @@ class Obstacle(pygame.sprite.Sprite):
         # self.mask = pygame.mask.from_surface(self.image) # creates a mask, used for collision detection (see manual about pygame.sprite.collide_mask())
 
 class Tree(Obstacle):
-    def __init__(self, img_path, tree_size, x, y, rect=(100, 100)):
+    def __init__(self, img_path, tree_size, x, y, settings):
         super().__init__(img_path, x, y)
+        self.settings = settings
         self.image = pygame.transform.scale(pygame.image.load(str(img_path)),tree_size) # load image
         self.rect = self.image.get_rect()
-        self.mask = rect
+        self.rect.center = (x,y)
+        self.mask = pygame.Rect(x-50, y-50, self.settings.TREE_MASK[1], self.settings.TREE_MASK[0])
 
 class Stone(Obstacle):
     def __init__(self, img_path, stone_size, x, y):

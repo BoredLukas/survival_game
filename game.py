@@ -7,8 +7,9 @@ from obstacles import Tree
 from settings import Settings
 
 class CameraGroup(pygame.sprite.Group):
-    def __init__(self,width,height):
+    def __init__(self,width,height,settings):
         super().__init__()
+        self.settings = settings
         #box setup
         self.width = width
         self.height = height
@@ -28,6 +29,7 @@ class CameraGroup(pygame.sprite.Group):
 
         # Background
         self.ground_surf = pygame.image.load(os.path.join('data','background.png')).convert_alpha()
+        self.ground_surf = pygame.transform.scale(self.ground_surf, self.settings.MAP_SIZE)
         self.ground_rect = self.ground_surf.get_rect(topleft = (0,0))
     
 		# zoom 
@@ -101,14 +103,16 @@ class Game:
     def play(self):
         # CREATE GAME OBJECTS
         # PLAYER:
-        player = Player(os.path.join('data','player.png'),(self.settings.WIN_WIDTH / 2,self.settings.WIN_HEIGHT / 2),self.settings.PLAYER_SIZE)
-
+        player = Player(os.path.join('data','player.png'),(self.settings.WIN_WIDTH / 2,self.settings.WIN_HEIGHT / 2),self.settings.PLAYER_SIZE, self.settings)
+        
         # CAMERA GROUP
-        camera_group = CameraGroup(self.settings.WIN_WIDTH,self.settings.WIN_HEIGHT)
+        camera_group = CameraGroup(self.settings.WIN_WIDTH,self.settings.WIN_HEIGHT, self.settings)
         camera_group.add(player)
         # OTHER OBJECTS:
         for i in range(10):
-            camera_group.add(Tree(os.path.join('data','tree_I.png'), self.settings.TREE_SIZE,random.randint(0,10000), random.randint(0,10000)))
+            x, y = random.randint(0,self.settings.MAP_WIDTH), random.randint(0,self.settings.MAP_HEIGHT)
+            tree = Tree(os.path.join('data','tree_II.png'), self.settings.TREE_SIZE, x, y, self.settings)
+            camera_group.add(tree)
 
         # GAME PERMANENT LOOP
         while True:
@@ -121,26 +125,33 @@ class Game:
                     self.quit()
  
             # Naviation of player
+            # restriction = player.collide(tree)
+            restriction = "none"
+
             keys = pygame.key.get_pressed()
             if keys[pygame.K_UP or pygame.KSCAN_W]:
-                player.rect.top -= self.settings.SPEED
+                if restriction != "w":
+                    player.rect.top -= self.settings.SPEED
             if keys[pygame.K_DOWN or pygame.K_s]:
-                player.rect.top += self.settings.SPEED
+                if restriction != "s":
+                    player.rect.top += self.settings.SPEED
             if keys[pygame.K_LEFT or pygame.K_a]:
-                player.rect.left -= self.settings.SPEED
+                if restriction != "a":
+                    player.rect.left -= self.settings.SPEED
             if keys[pygame.K_RIGHT or pygame.K_d]:
-                player.rect.left += self.settings.SPEED 
+                if restriction != "d":
+                    player.rect.left += self.settings.SPEED 
 
             # MOUSETRACKING
-            # if event.type == pygame.MOUSEMOTION:
-            #     player.point_at()
-            # player.mouseposition()
-            # order keys dont function
-
+            player.point_at()
+            
             # COLLISION DETECTION
-            """
-            see manual for all types of collisions: https://www.pygame.org/docs/ref/sprite.html#pygame.sprite.spritecollide
-            """
+            player.collide()
+
+            # see manual for all types of collisions: https://www.pygame.org/docs/ref/sprite.html#pygame.sprite.spritecollide
+            
+
+
             # for ball in balls: # use loop to iterate through sprite group easily
             #    pass
  
