@@ -31,5 +31,5 @@ class Settings:
         self.PLAYER_SIZE = player_size
         # OBSTACLES
         self.TREE_SIZE = tree_size
-        self.TREE_MASK = tree_mask_size
+        self.TREE_MASK_SIZE = tree_mask_size
         self.STONE_SIZE = stone_size

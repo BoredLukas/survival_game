@@ -48,14 +48,7 @@ class Player(pygame.sprite.Sprite):
         else:
             self.settings.SPEED = self.settings.ORIGINAL_SPEED
 
-        # Collision with Objects 
-        # Tree and Player
-        self.collision_tolerance = 10
-        self.mask_rect = self.mask.get_rect()
 
-        # if self.mask_rect.top - tree.rect.bottom < self.collision_tolerance:
-            # return "w"
-        # Stone and Player
 
     def mouseposition(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()

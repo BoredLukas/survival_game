@@ -111,8 +111,10 @@ class Game:
         # OTHER OBJECTS:
         for i in range(10):
             x, y = random.randint(0,self.settings.MAP_WIDTH), random.randint(0,self.settings.MAP_HEIGHT)
-            tree = Tree(os.path.join('data','tree_II.png'), self.settings.TREE_SIZE, x, y, self.settings)
+            tree = Tree(os.path.join('data','tree_II.png'), self.settings.TREE_SIZE, x, y, self.settings, self.settings.TREE_MASK_SIZE)
+
             camera_group.add(tree)
+
 
         # GAME PERMANENT LOOP
         while True:
@@ -123,7 +125,16 @@ class Game:
                 # Exit app if click quit button
                 if event.type == pygame.QUIT:
                     self.quit()
- 
+            # COLLISION DETECTION
+            player.collide()
+
+            for sprite in camera_group.sprites():
+                if sprite != player:
+                    # collision = pygame.sprite.spritecollide(player, sprite, False)
+                    collision = pygame.sprite.collide_rect(player, sprite)
+                    if collision:
+                        print(collision)
+
             # Naviation of player
             # restriction = player.collide(tree)
             restriction = "none"
@@ -145,15 +156,7 @@ class Game:
             # MOUSETRACKING
             player.point_at()
             
-            # COLLISION DETECTION
-            player.collide()
-
             # see manual for all types of collisions: https://www.pygame.org/docs/ref/sprite.html#pygame.sprite.spritecollide
-            
-
-
-            # for ball in balls: # use loop to iterate through sprite group easily
-            #    pass
  
             # UPDATE ALL GAME OBJECTS
             # balls.update() # can update all members of a group with a single command

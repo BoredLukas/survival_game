@@ -11,7 +11,7 @@ MAIN FILE
 """
 
 if __name__ == "__main__":
-    os.chdir(sys.path[0]) # changes current working directory to file directory
+    # os.chdir(sys.path[0]) # changes current working directory to file directory
 
     # define some settings
     settings_default = Settings()
