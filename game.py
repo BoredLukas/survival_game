@@ -4,6 +4,7 @@ import sys
 import random
 from player import Player
 from obstacles import Tree
+from obstacles import Stone
 from settings import Settings
 
 class CameraGroup(pygame.sprite.Group):
@@ -112,9 +113,12 @@ class Game:
         for i in range(10):
             x, y = random.randint(0,self.settings.MAP_WIDTH), random.randint(0,self.settings.MAP_HEIGHT)
             tree = Tree(os.path.join('data','tree_II.png'), self.settings.TREE_SIZE, x, y, self.settings, self.settings.TREE_MASK_SIZE)
-
             camera_group.add(tree)
 
+        # for i in range(10):
+        #     x, y = random.randint(0,self.settings.MAP_WIDTH), random.randint(0,self.settings.MAP_HEIGHT)
+        #     stone = Stone(os.path.join('data','stone.png'), self.settings.STONE_SIZE, x, y) 
+        #     camera_group.add(stone)
 
         # GAME PERMANENT LOOP
         while True:
@@ -134,24 +138,29 @@ class Game:
                     collision = pygame.sprite.collide_rect(player, sprite)
                     if collision:
                         print(collision)
+                        if player.rect.top - sprite.rect.bottom <= 0 and player.rect.top - sprite.rect.bottom <= self.settings.SPEED:
+                            player.rect.top += self.settings.SPEED
+                        if player.rect.bottom - sprite.rect.top >= 0 and player.rect.bottom - sprite.rect.top <= self.settings.SPEED:
+                            player.rect.bottom += self.settings.SPEED
+                        if player.rect.right - sprite.rect.left <= 0 and player.rect.right - sprite.rect.left <= self.settings.SPEED:
+                            player.rect.right -= self.settings.SPEED
+                        if player.rect.left - sprite.rect.right >= 0 and player.rect.left - sprite.rect.right <= self.settings.SPEED:
+                            player.rect.left += self.settings.SPEED
 
             # Naviation of player
             # restriction = player.collide(tree)
-            restriction = "none"
 
             keys = pygame.key.get_pressed()
             if keys[pygame.K_UP or pygame.KSCAN_W]:
-                if restriction != "w":
-                    player.rect.top -= self.settings.SPEED
+                player.rect.top -= self.settings.SPEED
             if keys[pygame.K_DOWN or pygame.K_s]:
-                if restriction != "s":
-                    player.rect.top += self.settings.SPEED
+                player.rect.top += self.settings.SPEED
             if keys[pygame.K_LEFT or pygame.K_a]:
-                if restriction != "a":
-                    player.rect.left -= self.settings.SPEED
+                player.rect.left -= self.settings.SPEED
             if keys[pygame.K_RIGHT or pygame.K_d]:
-                if restriction != "d":
-                    player.rect.left += self.settings.SPEED 
+                player.rect.left += self.settings.SPEED 
+
+            
 
             # MOUSETRACKING
             player.point_at()
@@ -167,8 +176,7 @@ class Game:
             camera_group.update()
             camera_group.custom_draw(player,self.screen)
 
-            # Drawing camera Rect
-            # pygame.draw.rect(self.screen, 'yellow', camera_group.getCAMERA_RECT(), 5)
+            player.update()
 
             # UPDATE DISPLAY
             pygame.display.update()

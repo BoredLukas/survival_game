@@ -15,20 +15,20 @@ class Player(pygame.sprite.Sprite):
         self.rect.center = xy_center # set center coords of player
         self.mask = pygame.mask.from_surface(self.image) # creates a mask, used for collision detection (see manual about pygame.sprite.collide_mask())
         self.original_image = self.image
+        # self.relative_x = # Relative coordinates on the display instead of map
+        # self.relative_y = # Relative coordinates on the display instead of map
+        self.previous_movement = None
 
     def update(self):
-        """
-        - update function gets executed in every step
-        - determines motion of player
-        """
-        pass
+        self.old_pos = self.rect.copy()
 
     def point_at(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         self.image = self.original_image
-        angle = ( math.atan2(self.rect.centery - mouse_y, self.rect.centerx - mouse_x) / math.pi * -180 ) + 90
+        angle = ( math.atan2(self.rect.centery - mouse_y,self.rect.centerx - mouse_x) / math.pi * -180 ) + 90 
         self.image = pygame.transform.rotate(self.image, angle)
         self.rect = self.image.get_rect(center=self.rect.center)
+
 
     def collide(self):
 
@@ -47,8 +47,6 @@ class Player(pygame.sprite.Sprite):
             self.settings.SPEED = 0
         else:
             self.settings.SPEED = self.settings.ORIGINAL_SPEED
-
-
 
     def mouseposition(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()

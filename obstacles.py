@@ -17,11 +17,11 @@ class Tree(Obstacle):
         super().__init__(img_path, x, y)
         self.settings = settings
         self.image = pygame.transform.scale(pygame.image.load(str(img_path)),tree_size) # load image
-        self.rect = pygame.Rect(x-150, y-150, tree_mask_size[0], tree_mask_size[1])
-        self.rect.center = (x,y)
+        self.rect = self.image.get_rect()
 
 class Stone(Obstacle):
     def __init__(self, img_path, stone_size, x, y):
         super().__init__()
         self.image = pygame.transform.scale(pygame.image.load(str(img_path)),stone_size) # load image
-        self.rect = self.image.get_rect() # create rectangle containing ball image
+        self.rect = self.image.get_rect() 
+        self.rect.center = (x,y)
